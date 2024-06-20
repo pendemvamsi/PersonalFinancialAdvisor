@@ -32,7 +32,6 @@ Follow these instructions to set up the Finance Chatbot on your local machine fo
 
 Install the necessary Python packages using pip:
 
-```bash
 pip install streamlit
 # Financial News Sentiment Analysis App
 
@@ -69,6 +68,5 @@ This application fetches financial news articles based on a given stock ticker, 
 ## Getting Started
 
 1. Clone the repository:
-   ```bash
    git clone https://github.com/yourusername/financial-news-sentiment-analysis.git
 
