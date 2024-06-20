@@ -70,3 +70,53 @@ This application fetches financial news articles based on a given stock ticker, 
 1. Clone the repository:
    git clone https://github.com/yourusername/financial-news-sentiment-analysis.git
 
+# Personal Finance Management App
+
+This application helps users manage their monthly budgets efficiently and provides investment recommendations based on their financial inputs. It also fetches real-time stock data and analyzes investment returns.
+
+## Features
+
+- **Monthly Budget Management**: Track and manage monthly expenses and income to ensure financial stability.
+- **Expense Breakdown**: Visualize the breakdown of monthly expenses through a pie chart.
+- **Savings Calculation**: Calculate monthly savings and suggest investment amounts.
+- **Real-Time Stock Data**: Fetch and display real-time stock data for a given ticker symbol.
+- **Investment Prediction**: Predict the amount of money returned from stock investments.
+- **Moving Average Analysis**: Calculate and plot the 50-day moving average for stock prices.
+- **Investment Returns Analysis**: Analyze and visualize the distribution of investment returns.
+
+## Functionalities
+
+1. **User Inputs**: 
+   - Enter the ticker symbol of the stock.
+   - Specify the start and end dates for retrieving stock data.
+   - Provide details of monthly income and expenses.
+
+2. **Expense Breakdown**:
+   - A pie chart visualizes the breakdown of transportation, food, outings, other fixed costs, and variable costs.
+
+3. **Savings and Investment**:
+   - Calculate and display monthly savings.
+   - Recommend an investment amount based on savings.
+   - Predict the potential returns from the investment.
+
+4. **Stock Data Analysis**:
+   - Display real-time stock data.
+   - Plot cumulative savings over time based on stock data.
+   - Generate a histogram for the distribution of investment returns.
+   - Plot the 50-day moving average for stock prices.
+
+## Images
+
+### Monthly Expense Breakdown
+![Monthly Expense Breakdown](image_path_1.png)
+
+### Cumulative Savings Over Time
+![Cumulative Savings Over Time](image_path_2.png)
+
+### Investment Returns Distribution
+![Investment Returns Distribution](image_path_3.png)
+
+## How to Run
+
+1. Install the required packages:
+   pip install streamlit yfinance matplotlib numpy
