@@ -190,6 +190,98 @@ This application is designed to help users manage their monthly budgets effectiv
 ### Future Stock Price Prediction
 ![Stock Price Prediction](path/to/stock_price_prediction.png)
 *This screenshot shows the future stock price prediction using the ARIMA model, displayed as a line chart.*
+### Enhanced Robo-Advisor App - README
+
+Welcome to the Enhanced Robo-Advisor App! This application provides personalized investment advice based on user input, leveraging real-time stock data, financial analysis, and advanced forecasting techniques. Below you'll find a detailed description of the app's features, functionalities, and usage instructions.
+
+---
+
+#### **Features and Functionalities**
+
+1. **User Authentication**
+   - **Login System**: Secure login system to ensure personalized advice.
+   - **Session Management**: Maintains user session for personalized interaction.
+
+2. **Risk Profile Assessment**
+   - **Age and Risk Tolerance**: Users input their age and risk tolerance to determine their risk profile.
+   - **Dynamic Risk Profiles**: Profiles such as Aggressive, Moderately Aggressive, Moderate, Moderately Conservative, and Conservative.
+
+3. **Portfolio Allocation**
+   - **Suggested Portfolio**: Based on the user’s risk profile, the app suggests a suitable portfolio allocation.
+   - **Customizable Portfolio**: Users can customize their portfolio by selecting specific stocks and bonds.
+
+4. **Real-time Data Fetching**
+   - **Stock Prices**: Fetches real-time stock and bond prices using yfinance.
+   - **Investment Distribution**: Calculates and displays the investment distribution based on real-time prices.
+
+5. **Financial Metrics and Analysis**
+   - **Historical Performance**: Fetches historical data to analyze the portfolio's past performance.
+   - **Metrics Calculation**: Calculates mean return, volatility, Sharpe ratio, and maximum drawdown.
+   - **Scenario Analysis**: Allows users to simulate portfolio changes based on hypothetical market conditions.
+   - **Monte Carlo Simulation**: Projects future portfolio values using Monte Carlo simulation to assess the likelihood of achieving financial goals.
+
+6. **Visualizations**
+   - **Pie Chart**: Displays portfolio allocation breakdown.
+   - **Line Charts**: Shows historical performance and future value projections.
+   - **Histograms**: Represents distribution of future portfolio values from Monte Carlo simulations.
+
+7. **Rebalancing Recommendations**
+   - **Rebalancing Alerts**: Provides alerts when the portfolio drifts significantly from the target allocation.
+
+8. **Investment Goals and Planning**
+   - **Goal Achievement**: Calculates the required annual return to achieve the user’s financial goals.
+   - **Simulation Results**: Displays the probability of achieving financial goals based on simulations.
+
+---
+
+#### **How to Use the App**
+
+1. **Login**
+   - Enter your username and password to log in to the app.
+   - New users can sign up to create an account (future implementation).
+
+2. **Provide User Inputs**
+   - Enter your age, risk tolerance, investment amount, financial goal, and the time frame to achieve your goal.
+
+3. **View Suggested Portfolio**
+   - Based on your inputs, the app will suggest a suitable portfolio allocation.
+   - Customize your portfolio by selecting specific stocks and bonds.
+
+4. **Analyze Portfolio**
+   - View real-time data and historical performance metrics.
+   - Check rebalancing recommendations and perform scenario analysis.
+
+5. **Project Future Values**
+   - Use the Monte Carlo simulation to project future portfolio values.
+   - Assess the probability of achieving your financial goals.
+
+---
+
+#### **Images of the App**
+
+1. **Login Page**
+   ![Login Page](https://via.placeholder.com/300x200.png?text=Login+Page)
+
+2. **User Input Form**
+   ![User Input Form](https://via.placeholder.com/300x200.png?text=User+Input+Form)
+
+3. **Portfolio Allocation Chart**
+   ![Portfolio Allocation Chart](https://via.placeholder.com/300x200.png?text=Portfolio+Allocation+Chart)
+
+4. **Historical Performance Graph**
+   ![Historical Performance Graph](https://via.placeholder.com/300x200.png?text=Historical+Performance+Graph)
+
+5. **Monte Carlo Simulation Results**
+   ![Monte Carlo Simulation Results](https://via.placeholder.com/300x200.png?text=Monte+Carlo+Simulation+Results)
+
+---
+
+Thank you for using the Enhanced Robo-Advisor App. We hope it helps you make informed investment decisions and achieve your financial goals! For any questions or support, please contact our support team.
+
+---
+
+**Note:** This README includes placeholder images. Replace the image URLs with actual screenshots of your app to provide users with a visual guide.
+
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
