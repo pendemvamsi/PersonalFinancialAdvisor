@@ -17,17 +17,9 @@ The Finance Chatbot is an interactive web application designed to answer finance
 
    ![Main Interface](./images/financialchatbotinterface.png)
 
-2. **Question Input**: Interface for entering custom finance questions.
-   ![Question Input](./images/input.png)
-
-   ![Main Interface](path/to/screenshot1.png)
 
 2. **Response Display**: Shows how answers are presented, including URL handling.
-   ![Response Display](path/to/screenshot2.png)
-
-3. **Question Input**: Interface for entering custom finance questions.
-   ![Question Input](path/to/screenshot3.png)
-
+   ![Response Display](./images/input.png)
 
 ## Getting Started
 
@@ -42,9 +34,6 @@ Follow these instructions to set up the Finance Chatbot on your local machine fo
 Install the necessary Python packages using pip:
 
 pip install streamlit
-
-
-
 
 # Financial News Sentiment Analysis App
 
@@ -78,6 +67,9 @@ _Figure 1: Main User Interface showing the input fields for API key and ticker s
 
 ### Sentiment Analysis Visualization
 
+![User Interface](./images/newssentimentalinterface.png)
+*Figure 1: Main User Interface showing the input fields for API key and ticker symbol.*
+
 ![Sentiment Analysis](./images/newssentimentalarticles.png)
 _Figure 2: Visualization of sentiment analysis results and recommendation chart._
 
@@ -85,18 +77,6 @@ _Figure 2: Visualization of sentiment analysis results and recommendation chart.
 
 ![Sentiment Analysis](./images/sentimentalscorenewsanalysis.png)
 _Figure 3: Visualization of sentiment analysis results overtime._
-
-![User Interface](path/to/user-interface-image.png)
-*Figure 1: Main User Interface showing the input fields for API key and ticker symbol.*
-
-### Sentiment Analysis Visualization
-![Sentiment Analysis](path/to/sentiment-analysis-image.png)
-*Figure 2: Visualization of sentiment analysis results and recommendation chart.*
-
-## Getting Started
-
-1. Clone the repository:
-   git clone https://github.com/yourusername/financial-news-sentiment-analysis.git
 
 
 # Personal Finance Management App
@@ -114,10 +94,6 @@ This application helps users manage their monthly budgets efficiently and provid
 - **Investment Returns Analysis**: Analyze and visualize the distribution of investment returns.
 
 ## Functionalities
-
-
-1. **User Inputs**:
-
 
 1. **User Inputs**: 
 
@@ -186,67 +162,9 @@ Welcome to the Predictions and Recommendations app. This application allows you 
 
 ## Predictions and Recommendations 📊
 
-The app provides valuable insights into stock market trends and potential investment opportunities by analyzing historical data and generating actionable buy/sell signals.
-
-- **Buy/Sell Signals**: Based on the SMA and RSI indicators, the app identifies potential buy and sell opportunities.
-- **Overbought/Oversold Alerts**: Alerts users to market conditions that may indicate overbought or oversold stocks.
-- **Future Price Prediction**: Utilizes the ARIMA model to predict future stock prices, helping users make informed investment decisions.
-
-## Screenshots 📸
-
-1. **predictions and recommendation input**
-   ![Stock Price Chart](./images/predict_input.png)
-
-2. **Indicators: SMA and RSI Over Time alerts**
-   ![SMA and RSI alerts](./images//predict_alert.png)
-
-3. **Buy Signal Detection and sell signals**
-   ![Buy Signal and sell](./images//predict_buysellsignals.png)
-
-4. **Future Price Prediction**
-   ![Future Prediction](./images/predict_future.png)
-
-## How to Use the App
-
-1. **Select Option**: Choose "Stock Prediction Buy and Selling Signals" from the options provided in the app interface.
-
-2. **Input Parameters**:
-   - Enter the ticker symbol of the stock.
-   - Specify the start and end dates for fetching stock data.
-   - Set the window size for SMA and RSI calculations.
-   - Determine the number of days for forecasting and configure ARIMA model parameters.
-
-3. **Select Indicators**: Choose the indicators (SMA, RSI) you wish to use for analysis.
-
-4. **Generate Analysis**: Click the button to generate the stock analysis, which will display the buy/sell signals, visualizations, and future predictions.
-
-The app provides a comprehensive toolset for investors to analyze stocks, make informed decisions, and visualize market trends through advanced statistical models.
-
-
-![Monthly Expense Breakdown](image_path_1.png)
-
-### Cumulative Savings Over Time
-![Cumulative Savings Over Time](image_path_2.png)
-
-### Investment Returns Distribution
-![Investment Returns Distribution](image_path_3.png)
-
-## How to Run
-
-1. Install the required packages:
-   pip install streamlit yfinance matplotlib numpy
-# Predictions and recommendations
-
-
 This application is designed to help users manage their monthly budgets effectively and provide investment recommendations based on their financial inputs. The app fetches real-time stock data, analyzes investment returns, generates buy/sell signals, and predicts future stock prices using the ARIMA model.
 
 ## Features
-
-### Monthly Budget Management
-- **Expense Tracking**: Record and categorize your monthly expenses.
-- **Income Tracking**: Keep track of your monthly income sources.
-- **Budget Visualization**: Visualize the distribution of expenses and income with interactive charts.
-- **Budget Limits**: Set budget limits and receive alerts when nearing the limits.
 
 ### Real-Time Stock Data
 - **Stock Data Fetching**: Fetch real-time stock data using the Yahoo Finance API.
@@ -259,7 +177,6 @@ This application is designed to help users manage their monthly budgets effectiv
 - **Stock Price Prediction**: Predict future stock prices using the ARIMA model and visualize the forecasted trends.
 
 
-    ```
 
 ### Stock Prediction Buy and Selling Signals
 
@@ -279,32 +196,23 @@ This application is designed to help users manage their monthly budgets effectiv
     - Click to generate buy and sell signals based on the selected indicators.
     - View the overbought and oversold signals.
     - Visualize the stock price trend with buy/sell signals.
-    - View the future stock price prediction.
+    - View the future stock price predictions.
 
-## Examples
 
-### Example 1: Budget Visualization
-![Budget Visualization](path/to/budget_visualization.png)
+## Screenshots 📸
 
-### Example 2: Stock Price Chart with Buy/Sell Signals
-![Stock Price Chart](path/to/stock_price_chart.png)
+1. **predictions and recommendation input**
+   ![Stock Price Chart](./images/predict_input.png)
 
-### Example 3: Future Stock Price Prediction
-![Stock Price Prediction](path/to/stock_price_prediction.png)
+2. **Indicators: SMA and RSI Over Time alerts**
+   ![SMA and RSI alerts](./images//predict_alert.png)
 
-## Screenshots
+3. **Buy Signal Detection and sell signals**
+   ![Buy Signal and sell](./images//predict_buysellsignals.png)
 
-### Budget Visualization
-![Budget Visualization](path/to/budget_visualization.png)
-*This screenshot shows the distribution of monthly expenses and income in an interactive pie chart.*
+4. **Future Price Prediction**
+   ![Future Prediction](./images/predict_future.png)
 
-### Stock Price Chart with Buy/Sell Signals
-![Stock Price Chart](path/to/stock_price_chart.png)
-*This screenshot shows the stock price trend with buy and sell signals marked on a candlestick chart.*
-
-### Future Stock Price Prediction
-![Stock Price Prediction](path/to/stock_price_prediction.png)
-*This screenshot shows the future stock price prediction using the ARIMA model, displayed as a line chart.*
 
 ### Enhanced Robo-Advisor App - README
 
@@ -315,60 +223,36 @@ Welcome to the Enhanced Robo-Advisor App! This application provides personalized
 #### **Features and Functionalities**
 
 1. **User Authentication**
-
-
-
-
    - **Login System**: Secure login system to ensure personalized advice.
    - **Session Management**: Maintains user session for personalized interaction.
 
 2. **Risk Profile Assessment**
-
-
-
 
    - **Age and Risk Tolerance**: Users input their age and risk tolerance to determine their risk profile.
    - **Dynamic Risk Profiles**: Profiles such as Aggressive, Moderately Aggressive, Moderate, Moderately Conservative, and Conservative.
 
 3. **Portfolio Allocation**
 
-
-
-
    - **Suggested Portfolio**: Based on the user’s risk profile, the app suggests a suitable portfolio allocation.
    - **Customizable Portfolio**: Users can customize their portfolio by selecting specific stocks and bonds.
 
 4. **Real-time Data Fetching**
 
-
-
-
    - **Stock Prices**: Fetches real-time stock and bond prices using yfinance.
    - **Investment Distribution**: Calculates and displays the investment distribution based on real-time prices.
 
 5. **Financial Metrics and Analysis**
-
-
-
-
    - **Historical Performance**: Fetches historical data to analyze the portfolio's past performance.
    - **Metrics Calculation**: Calculates mean return, volatility, Sharpe ratio, and maximum drawdown.
    - **Scenario Analysis**: Allows users to simulate portfolio changes based on hypothetical market conditions.
    - **Monte Carlo Simulation**: Projects future portfolio values using Monte Carlo simulation to assess the likelihood of achieving financial goals.
 
 6. **Visualizations**
-
-
-
-
    - **Pie Chart**: Displays portfolio allocation breakdown.
    - **Line Charts**: Shows historical performance and future value projections.
    - **Histograms**: Represents distribution of future portfolio values from Monte Carlo simulations.
 
 7. **Rebalancing Recommendations**
-
-
-
 
    - **Rebalancing Alerts**: Provides alerts when the portfolio drifts significantly from the target allocation.
 
@@ -381,20 +265,14 @@ Welcome to the Enhanced Robo-Advisor App! This application provides personalized
 #### **How to Use the App**
 
 1. **Login**
-
-
-
-
    - Enter your username and password to log in to the app.
    - New users can sign up to create an account (future implementation).
 
 2. **Provide User Inputs**
 
-
    - Enter your age, risk tolerance, investment amount, financial goal, and the time frame to achieve your goal.
 
 3. **View Suggested Portfolio**
-
 
    - Enter your age, risk tolerance, investment amount, financial goal, and the time frame to achieve your goal.
 
@@ -404,10 +282,6 @@ Welcome to the Enhanced Robo-Advisor App! This application provides personalized
    - Customize your portfolio by selecting specific stocks and bonds.
 
 4. **Analyze Portfolio**
-
-
-
-
    - View real-time data and historical performance metrics.
    - Check rebalancing recommendations and perform scenario analysis.
 
@@ -435,30 +309,48 @@ Welcome to the Enhanced Robo-Advisor App! This application provides personalized
 5. **Monte Carlo Simulation Results**
    ![Monte Carlo Simulation Results](./images//robo_future.png)
 
-   ![Login Page](https://via.placeholder.com/300x200.png?text=Login+Page)
-
-2. **User Input Form**
-   ![User Input Form](https://via.placeholder.com/300x200.png?text=User+Input+Form)
-
-3. **Portfolio Allocation Chart**
-   ![Portfolio Allocation Chart](https://via.placeholder.com/300x200.png?text=Portfolio+Allocation+Chart)
-
-4. **Historical Performance Graph**
-   ![Historical Performance Graph](https://via.placeholder.com/300x200.png?text=Historical+Performance+Graph)
-
-5. **Monte Carlo Simulation Results**
-   ![Monte Carlo Simulation Results](https://via.placeholder.com/300x200.png?text=Monte+Carlo+Simulation+Results)
-
 
 ---
+# Cloning a GitHub Repository
+
+To clone a repository from GitHub to your local machine, follow these steps:
+
+## Steps to Clone
+
+1. **Copy the Repository URL**:
+   - Navigate to the GitHub page of the repository you wish to clone.
+   - Click the green "Code" button and copy the URL provided under "Clone with HTTPS" or "Clone with SSH". For example:
+     ```
+     https://github.com/pendemvamsi/PersonalFinancialAdvisor.git
+     ```
+
+2. **Open Your Command Line Interface (CLI)**:
+   - On Windows, you can use Command Prompt or PowerShell.
+   - On macOS or Linux, open the Terminal.
+
+3. **Clone the Repository**:
+   - Type the following command in your CLI:
+     ```bash
+     git clone https://github.com/pendemvamsi/PersonalFinancialAdvisor.git
+     ```
+   - Replace `https://github.com/pendemvamsi/PersonalFinancialAdvisor.git` with the URL you copied.
+
+4. **Navigate into the Repository Directory**:
+   - Once the cloning is complete, change to the directory of the repository:
+     ```bash
+     cd PersonalFinancialAdvisor
+     ```
+5. **install the dependencies package**:
+   - Install the dependencies package from the repository directory of requirements.txt:
+      '''bash
+      pip -r install requirements.txt
+      '''
+Now, you have successfully cloned the repository and can start working with it locally.
 
 Thank you for using the Enhanced Robo-Advisor App. We hope it helps you make informed investment decisions and achieve your financial goals! For any questions or support, please contact our support team.
 
 ---
 
-**Note:** This README includes placeholder images. Replace the image URLs with actual screenshots of your app to provide users with a visual guide.
-
-
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
@@ -467,11 +359,5 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 
 This project is licensed under the MIT License.
 
-
-## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
-
-## License
-This project is licensed under the MIT License.
 
 
