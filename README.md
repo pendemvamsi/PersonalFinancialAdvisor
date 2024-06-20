@@ -1,5 +1,6 @@
-#PERSONAL FINANCIAL ADVISOR-EMPOWERING SMART FINANCIAL DECISIONS THROUGH AI AND ML LEARNING
-## Finance Chatbot
+# 🚀 Personal Financial Advisor - Empowering Smart Financial Decisions Through AI and ML Learning
+
+# Finance Chatbot
 
 The Finance Chatbot is an interactive web application designed to answer finance-related questions. It utilizes a collection of pre-defined Q&A pairs, which can be easily updated to reflect the latest financial information.
 
