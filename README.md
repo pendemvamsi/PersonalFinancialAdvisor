@@ -120,3 +120,80 @@ This application helps users manage their monthly budgets efficiently and provid
 
 1. Install the required packages:
    pip install streamlit yfinance matplotlib numpy
+# Predictions and recommendations
+
+
+This application is designed to help users manage their monthly budgets effectively and provide investment recommendations based on their financial inputs. The app fetches real-time stock data, analyzes investment returns, generates buy/sell signals, and predicts future stock prices using the ARIMA model.
+
+## Features
+
+### Monthly Budget Management
+- **Expense Tracking**: Record and categorize your monthly expenses.
+- **Income Tracking**: Keep track of your monthly income sources.
+- **Budget Visualization**: Visualize the distribution of expenses and income with interactive charts.
+- **Budget Limits**: Set budget limits and receive alerts when nearing the limits.
+
+### Real-Time Stock Data
+- **Stock Data Fetching**: Fetch real-time stock data using the Yahoo Finance API.
+- **Stock Visualization**: Visualize stock price trends with interactive candlestick charts.
+- **Stock Performance Analysis**: Analyze stock performance over different periods.
+
+### Investment Analysis and Recommendations
+- **Buy and Sell Signal Alerts**: Generate buy and sell signal alerts based on selected indicators such as Simple Moving Average (SMA) and Relative Strength Index (RSI).
+- **Overbought and Oversold Signals**: Identify overbought and oversold conditions to make informed investment decisions.
+- **Stock Price Prediction**: Predict future stock prices using the ARIMA model and visualize the forecasted trends.
+
+
+    ```
+
+### Stock Prediction Buy and Selling Signals
+
+1. **Enter Stock Information**:
+    - Enter the ticker symbol of the stock (e.g., AAPL).
+    - Select the start date and end date for the stock data.
+
+2. **Configure Indicators**:
+    - Set the window size for the Simple Moving Average (SMA).
+    - Set the window size for the Relative Strength Index (RSI).
+
+3. **Forecast Configuration**:
+    - Enter the number of days to forecast.
+    - Configure the ARIMA model parameters: Autoregressive (p), Integrated (d), and Moving Average (q).
+
+4. **Generate Signals and Forecast**:
+    - Click to generate buy and sell signals based on the selected indicators.
+    - View the overbought and oversold signals.
+    - Visualize the stock price trend with buy/sell signals.
+    - View the future stock price prediction.
+
+## Examples
+
+### Example 1: Budget Visualization
+![Budget Visualization](path/to/budget_visualization.png)
+
+### Example 2: Stock Price Chart with Buy/Sell Signals
+![Stock Price Chart](path/to/stock_price_chart.png)
+
+### Example 3: Future Stock Price Prediction
+![Stock Price Prediction](path/to/stock_price_prediction.png)
+
+## Screenshots
+
+### Budget Visualization
+![Budget Visualization](path/to/budget_visualization.png)
+*This screenshot shows the distribution of monthly expenses and income in an interactive pie chart.*
+
+### Stock Price Chart with Buy/Sell Signals
+![Stock Price Chart](path/to/stock_price_chart.png)
+*This screenshot shows the stock price trend with buy and sell signals marked on a candlestick chart.*
+
+### Future Stock Price Prediction
+![Stock Price Prediction](path/to/stock_price_prediction.png)
+*This screenshot shows the future stock price prediction using the ARIMA model, displayed as a line chart.*
+
+## Contributing
+Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
+
+## License
+This project is licensed under the MIT License.
+
