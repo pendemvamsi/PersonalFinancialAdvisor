@@ -34,3 +34,41 @@ Install the necessary Python packages using pip:
 
 ```bash
 pip install streamlit
+# Financial News Sentiment Analysis App
+
+This application fetches financial news articles based on a given stock ticker, analyzes the sentiment of these articles, and provides buy or sell recommendations based on the analysis.
+
+## Features
+
+- **Fetch Financial News**: Retrieve the latest financial news articles for any given stock ticker using the News API.
+- **Sentiment Analysis**: Analyze the sentiment of each article's title and description to determine the overall sentiment polarity.
+- **Dynamic Recommendations**: Provide real-time recommendations (BUY, SELL, or HOLD) based on the average sentiment of the news articles.
+- **Data Visualization**: Visualize sentiment trends over time with interactive plots.
+- **CSV Download**: Allow users to download the sentiment analysis results as a CSV file for further analysis.
+- **User-Friendly Interface**: Streamlined interface built with Streamlit for easy interaction and accessibility.
+
+## Functionalities
+
+1. **Enter API Key and Ticker Symbol**: Users input their News API key and the ticker symbol of the stock they are interested in.
+2. **Fetch News**: Upon entering the details and pressing the button, the application fetches the news articles related to the specified ticker.
+3. **Sentiment Analysis**: The application analyzes the sentiment of each fetched article to determine its polarity.
+4. **Recommendations**: Based on the analysis, the app provides recommendations to BUY, SELL, or HOLD the stock.
+5. **Display and Download Data**: The application displays the news articles along with their sentiment scores and provides an option to download this data as a CSV file.
+6. **Visual Sentiment Trends**: Interactive graphs show sentiment trends over time, helping users visualize the sentiment changes.
+
+## Screenshots
+
+### User Interface
+![User Interface](path/to/user-interface-image.png)
+*Figure 1: Main User Interface showing the input fields for API key and ticker symbol.*
+
+### Sentiment Analysis Visualization
+![Sentiment Analysis](path/to/sentiment-analysis-image.png)
+*Figure 2: Visualization of sentiment analysis results and recommendation chart.*
+
+## Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/financial-news-sentiment-analysis.git
+
