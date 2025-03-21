@@ -91,7 +91,7 @@ def financial_questions_chatbot():
         expenses_labels = ['Transportation', 'Food', 'Outings', 'Other Fixed', 'Variable']
         expenses_values = [transportation_costs, food_costs, outing_expenses, other_fixed_costs, sum(variable_costs.values()) if variable_costs else 0]
 
-        fig, ax = plt.pyplot()
+        fig, ax = plt.subplots()
         ax.pie(expenses_values, labels=expenses_labels, autopct='%1.1f%%', startangle=90)
         ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
         st.pyplot(fig)
