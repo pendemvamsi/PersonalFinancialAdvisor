@@ -79,7 +79,7 @@ def main():
     st.title("Financial News Sentiment Analysis")
     st.write("This app fetches financial news related to a given stock ticker and provides buy or sell recommendations based on sentiment analysis of the news.")
 
-    api_key = st.text_input("Enter your News API key:")
+    api_key = st.text_input("Enter your News API key(Default ApiKey:31d55976f77b4d5e965dfb5df537670f):")
     ticker = st.text_input("Enter the ticker symbol of the stock:")
 
     if st.button("Get Recommendations"):
