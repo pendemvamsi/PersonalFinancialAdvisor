@@ -57,19 +57,36 @@ def get_real_time_data(tickers):
     for ticker in tickers:
         stock_info = yf.Ticker(ticker)
         hist = stock_info.history(period="1d")
-        data[ticker] = hist['Close'][0]
+        if not hist.empty:
+            data[ticker] = hist['Close'][0]
+        else:
+            data[ticker] = None  # Handle missing data
     return data
 
-# Fetch historical data
+# Fetch historical data with error handling for missing 'Adj Close'
 def get_historical_data(tickers, period="1y"):
+    if not tickers:
+        return None
     data = yf.download(tickers, period=period)
-    return data['Adj Close']
+    # Handle multi-ticker downloads (MultiIndex columns)
+    if isinstance(data.columns, pd.MultiIndex):
+        if 'Adj Close' in data.columns.levels[0]:
+            return data['Adj Close']
+        else:
+            st.warning("Adjusted Close data not found for tickers: " + ", ".join(tickers))
+            return None
+    else:
+        if 'Adj Close' in data.columns:
+            return data['Adj Close']
+        else:
+            st.warning("Adjusted Close data not found for tickers: " + ", ".join(tickers))
+            return None
 
 # Calculate additional financial metrics
 def calculate_metrics(returns):
     mean_return = returns.mean() * 252
     volatility = returns.std() * np.sqrt(252)
-    sharpe_ratio = mean_return / volatility
+    sharpe_ratio = mean_return / volatility if volatility != 0 else 0  # Avoid division by zero
     return mean_return, volatility, sharpe_ratio
 
 # Streamlit app
@@ -124,17 +141,22 @@ if st.session_state['user_logged_in']:
 
     # Detailed allocation
     detailed_allocation = {}
-
     # Distribute stock investments
-    stock_investment_per_stock = investment_allocation['Stocks'] / len(stock_tickers)
-    for ticker in stock_tickers:
-        detailed_allocation[ticker] = stock_investment_per_stock / stock_prices[ticker]
-
+    if stock_tickers:
+        stock_investment_per_stock = investment_allocation['Stocks'] / len(stock_tickers)
+        for ticker in stock_tickers:
+            if stock_prices.get(ticker) is not None:
+                detailed_allocation[ticker] = stock_investment_per_stock / stock_prices[ticker]
+            else:
+                detailed_allocation[ticker] = 0
     # Distribute bond investments
-    bond_investment_per_bond = investment_allocation['Bonds'] / len(bond_tickers)
-    for ticker in bond_tickers:
-        detailed_allocation[ticker] = bond_investment_per_bond / bond_prices[ticker]
-
+    if bond_tickers:
+        bond_investment_per_bond = investment_allocation['Bonds'] / len(bond_tickers)
+        for ticker in bond_tickers:
+            if bond_prices.get(ticker) is not None:
+                detailed_allocation[ticker] = bond_investment_per_bond / bond_prices[ticker]
+            else:
+                detailed_allocation[ticker] = 0
     # Combine detailed allocation
     detailed_allocation['Cash'] = investment_allocation['Cash']
 
@@ -153,20 +175,24 @@ if st.session_state['user_logged_in']:
     tickers = stock_tickers + bond_tickers
     historical_data = get_historical_data(tickers)
 
-    # Calculate portfolio historical performance
-    weights = [portfolio['Stocks'] / len(stock_tickers)] * len(stock_tickers) + [portfolio['Bonds'] / len(bond_tickers)] * len(bond_tickers)
-    portfolio_returns = (historical_data * weights).sum(axis=1).pct_change().dropna()
+    if historical_data is not None:
+        # Calculate portfolio historical performance
+        weights = ([portfolio['Stocks'] / len(stock_tickers)] * len(stock_tickers)) + ([portfolio['Bonds'] / len(bond_tickers)] * len(bond_tickers))
+        # Ensure alignment of DataFrame columns with weights when multiple tickers exist
+        portfolio_returns = (historical_data * weights).sum(axis=1).pct_change().dropna()
 
-    # Calculate financial metrics
-    mean_return, volatility, sharpe_ratio = calculate_metrics(portfolio_returns)
-    st.write(f"Mean Return: {mean_return:.2%}")
-    st.write(f"Volatility: {volatility:.2%}")
-    st.write(f"Sharpe Ratio: {sharpe_ratio:.2f}")
+        # Calculate financial metrics
+        mean_return, volatility, sharpe_ratio = calculate_metrics(portfolio_returns)
+        st.write(f"Mean Return: {mean_return:.2%}")
+        st.write(f"Volatility: {volatility:.2%}")
+        st.write(f"Sharpe Ratio: {sharpe_ratio:.2f}")
 
-    # Display historical performance
-    st.write("Historical Performance:")
-    fig = px.line(portfolio_returns.cumsum(), title="Portfolio Cumulative Returns")
-    st.plotly_chart(fig)
+        # Display historical performance using Plotly
+        st.write("Historical Performance:")
+        fig = px.line(portfolio_returns.cumsum(), title="Portfolio Cumulative Returns")
+        st.plotly_chart(fig)
+    else:
+        st.error("Historical data could not be retrieved. Please check the selected tickers.")
 
     # Rebalancing Recommendations
     st.write("Rebalancing Recommendations:")
@@ -179,8 +205,8 @@ if st.session_state['user_logged_in']:
     # Scenario Analysis
     st.write("Scenario Analysis:")
     market_change = st.slider("Market Change (%)", -50, 50, 0)
-    new_prices = {ticker: price * (1 + market_change / 100) for ticker, price in stock_prices.items()}
-    new_detailed_allocation = {ticker: (investment_allocation['Stocks'] / len(stock_tickers)) / new_prices[ticker] for ticker in stock_tickers}
+    new_prices = {ticker: price * (1 + market_change / 100) for ticker, price in stock_prices.items() if price is not None}
+    new_detailed_allocation = {ticker: (investment_allocation['Stocks'] / len(stock_tickers)) / new_prices[ticker] for ticker in stock_tickers if ticker in new_prices}
     new_allocation_df = pd.DataFrame.from_dict(new_detailed_allocation, orient='index', columns=['Shares'])
     st.write(f"New Allocation if market changes by {market_change}%:")
     st.write(new_allocation_df.style.format("{:.2f}"))
@@ -189,38 +215,33 @@ if st.session_state['user_logged_in']:
     if profile == 'Aggressive':
         st.write("Aggressive Risk Profile Analysis:")
         st.write("This profile focuses on high growth with significant volatility. Suitable for younger investors with a longer time horizon.")
-        # Additional metrics and analysis for Aggressive profile
-        max_drawdown = (portfolio_returns.cumsum().max()        - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
+        max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
         st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
     elif profile == 'Moderately Aggressive':
         st.write("Moderately Aggressive Risk Profile Analysis:")
         st.write("This profile aims for growth with moderate volatility. Suitable for investors who can tolerate some market fluctuations.")
-        # Additional metrics and analysis for Moderately Aggressive profile
         max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
         st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
     elif profile == 'Moderate':
         st.write("Moderate Risk Profile Analysis:")
         st.write("This profile balances growth and income with moderate volatility. Suitable for investors with a balanced risk tolerance.")
-        # Additional metrics and analysis for Moderate profile
         max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
         st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
     elif profile == 'Moderately Conservative':
         st.write("Moderately Conservative Risk Profile Analysis:")
         st.write("This profile focuses on income with low to moderate volatility. Suitable for investors who prefer stable returns.")
-        # Additional metrics and analysis for Moderately Conservative profile
         max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
         st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
     else:
         st.write("Conservative Risk Profile Analysis:")
         st.write("This profile focuses on capital preservation with minimal volatility. Suitable for older investors or those with low risk tolerance.")
-        # Additional metrics and analysis for Conservative profile
         max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
         st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
 
     # Investment Goals and Planning
     st.write("Investment Goals and Planning:")
@@ -234,11 +255,9 @@ if st.session_state['user_logged_in']:
     for _ in range(simulations):
         simulated_returns = np.random.normal(mean_return / 252, volatility / np.sqrt(252), 252 * goal_years)
         future_values.append(investment_amount * np.prod(1 + simulated_returns))
-
     future_values = np.array(future_values)
     fig = px.histogram(future_values, nbins=50, title="Distribution of Future Portfolio Values")
     st.plotly_chart(fig)
     st.write(f"Based on the Monte Carlo simulation, there is a {np.mean(future_values >= financial_goal):.2%} chance of achieving your financial goal.")
 else:
     st.write("Please log in to access your personalized robo-advisor dashboard.")
-
