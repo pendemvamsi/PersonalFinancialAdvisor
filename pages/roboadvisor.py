@@ -141,6 +141,7 @@ if st.session_state['user_logged_in']:
 
     # Detailed allocation
     detailed_allocation = {}
+
     # Distribute stock investments
     if stock_tickers:
         stock_investment_per_stock = investment_allocation['Stocks'] / len(stock_tickers)
@@ -157,6 +158,7 @@ if st.session_state['user_logged_in']:
                 detailed_allocation[ticker] = bond_investment_per_bond / bond_prices[ticker]
             else:
                 detailed_allocation[ticker] = 0
+
     # Combine detailed allocation
     detailed_allocation['Cash'] = investment_allocation['Cash']
 
@@ -172,13 +174,13 @@ if st.session_state['user_logged_in']:
     st.pyplot(fig)
 
     # Fetch historical data for performance analysis
-    tickers = stock_tickers + bond_tickers
-    historical_data = get_historical_data(tickers)
+    all_tickers = stock_tickers + bond_tickers
+    historical_data = get_historical_data(all_tickers)
 
+    portfolio_returns = None  # Initialize portfolio_returns
     if historical_data is not None:
         # Calculate portfolio historical performance
         weights = ([portfolio['Stocks'] / len(stock_tickers)] * len(stock_tickers)) + ([portfolio['Bonds'] / len(bond_tickers)] * len(bond_tickers))
-        # Ensure alignment of DataFrame columns with weights when multiple tickers exist
         portfolio_returns = (historical_data * weights).sum(axis=1).pct_change().dropna()
 
         # Calculate financial metrics
@@ -194,70 +196,72 @@ if st.session_state['user_logged_in']:
     else:
         st.error("Historical data could not be retrieved. Please check the selected tickers.")
 
-    # Rebalancing Recommendations
-    st.write("Rebalancing Recommendations:")
-    current_allocations = {'Stocks': investment_allocation['Stocks'], 'Bonds': investment_allocation['Bonds'], 'Cash': investment_allocation['Cash']}
-    for asset, allocation in portfolio.items():
-        current_allocation = current_allocations[asset] / investment_amount
-        if abs(current_allocation - allocation) > 0.05:  # if drift is more than 5%
-            st.write(f"Consider rebalancing {asset}: Current allocation is {current_allocation:.2%}, Target is {allocation:.2%}")
+    # Only perform risk analysis if portfolio_returns is defined
+    if portfolio_returns is not None:
+        # Rebalancing Recommendations
+        st.write("Rebalancing Recommendations:")
+        current_allocations = {'Stocks': investment_allocation['Stocks'], 'Bonds': investment_allocation['Bonds'], 'Cash': investment_allocation['Cash']}
+        for asset, allocation in portfolio.items():
+            current_allocation = current_allocations[asset] / investment_amount
+            if abs(current_allocation - allocation) > 0.05:  # if drift is more than 5%
+                st.write(f"Consider rebalancing {asset}: Current allocation is {current_allocation:.2%}, Target is {allocation:.2%}")
 
-    # Scenario Analysis
-    st.write("Scenario Analysis:")
-    market_change = st.slider("Market Change (%)", -50, 50, 0)
-    new_prices = {ticker: price * (1 + market_change / 100) for ticker, price in stock_prices.items() if price is not None}
-    new_detailed_allocation = {ticker: (investment_allocation['Stocks'] / len(stock_tickers)) / new_prices[ticker] for ticker in stock_tickers if ticker in new_prices}
-    new_allocation_df = pd.DataFrame.from_dict(new_detailed_allocation, orient='index', columns=['Shares'])
-    st.write(f"New Allocation if market changes by {market_change}%:")
-    st.write(new_allocation_df.style.format("{:.2f}"))
+        # Scenario Analysis
+        st.write("Scenario Analysis:")
+        market_change = st.slider("Market Change (%)", -50, 50, 0)
+        new_prices = {ticker: price * (1 + market_change / 100) for ticker, price in stock_prices.items() if price is not None}
+        new_detailed_allocation = {ticker: (investment_allocation['Stocks'] / len(stock_tickers)) / new_prices[ticker] for ticker in stock_tickers if ticker in new_prices}
+        new_allocation_df = pd.DataFrame.from_dict(new_detailed_allocation, orient='index', columns=['Shares'])
+        st.write(f"New Allocation if market changes by {market_change}%:")
+        st.write(new_allocation_df.style.format("{:.2f}"))
 
-    # Adding accuracy and detailed performance metrics for each risk profile
-    if profile == 'Aggressive':
-        st.write("Aggressive Risk Profile Analysis:")
-        st.write("This profile focuses on high growth with significant volatility. Suitable for younger investors with a longer time horizon.")
-        max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
-        st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
-    elif profile == 'Moderately Aggressive':
-        st.write("Moderately Aggressive Risk Profile Analysis:")
-        st.write("This profile aims for growth with moderate volatility. Suitable for investors who can tolerate some market fluctuations.")
-        max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
-        st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
-    elif profile == 'Moderate':
-        st.write("Moderate Risk Profile Analysis:")
-        st.write("This profile balances growth and income with moderate volatility. Suitable for investors with a balanced risk tolerance.")
-        max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
-        st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
-    elif profile == 'Moderately Conservative':
-        st.write("Moderately Conservative Risk Profile Analysis:")
-        st.write("This profile focuses on income with low to moderate volatility. Suitable for investors who prefer stable returns.")
-        max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
-        st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
-    else:
-        st.write("Conservative Risk Profile Analysis:")
-        st.write("This profile focuses on capital preservation with minimal volatility. Suitable for older investors or those with low risk tolerance.")
-        max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
-        st.write(f"Max Drawdown: {max_drawdown:.2f}")
-        st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        # Risk Profile Analysis based on portfolio_returns
+        if profile == 'Aggressive':
+            st.write("Aggressive Risk Profile Analysis:")
+            st.write("This profile focuses on high growth with significant volatility. Suitable for younger investors with a longer time horizon.")
+            max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
+            st.write(f"Max Drawdown: {max_drawdown:.2f}")
+            st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        elif profile == 'Moderately Aggressive':
+            st.write("Moderately Aggressive Risk Profile Analysis:")
+            st.write("This profile aims for growth with moderate volatility. Suitable for investors who can tolerate some market fluctuations.")
+            max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
+            st.write(f"Max Drawdown: {max_drawdown:.2f}")
+            st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        elif profile == 'Moderate':
+            st.write("Moderate Risk Profile Analysis:")
+            st.write("This profile balances growth and income with moderate volatility. Suitable for investors with a balanced risk tolerance.")
+            max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
+            st.write(f"Max Drawdown: {max_drawdown:.2f}")
+            st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        elif profile == 'Moderately Conservative':
+            st.write("Moderately Conservative Risk Profile Analysis:")
+            st.write("This profile focuses on income with low to moderate volatility. Suitable for investors who prefer stable returns.")
+            max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
+            st.write(f"Max Drawdown: {max_drawdown:.2f}")
+            st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
+        else:
+            st.write("Conservative Risk Profile Analysis:")
+            st.write("This profile focuses on capital preservation with minimal volatility. Suitable for older investors or those with low risk tolerance.")
+            max_drawdown = (portfolio_returns.cumsum().max() - portfolio_returns.cumsum().min()) / portfolio_returns.cumsum().max()
+            st.write(f"Max Drawdown: {max_drawdown:.2f}")
+            st.write(f"Annualized Volatility: {portfolio_returns.std() * np.sqrt(252):.2f}")
 
-    # Investment Goals and Planning
-    st.write("Investment Goals and Planning:")
-    target_return = (financial_goal / investment_amount) ** (1 / goal_years) - 1
-    st.write(f"To achieve your goal of ${financial_goal} in {goal_years} years, your portfolio needs to achieve an annual return of {target_return:.2%}.")
+        # Investment Goals and Planning
+        st.write("Investment Goals and Planning:")
+        target_return = (financial_goal / investment_amount) ** (1 / goal_years) - 1
+        st.write(f"To achieve your goal of ${financial_goal} in {goal_years} years, your portfolio needs to achieve an annual return of {target_return:.2%}.")
 
-    # Monte Carlo simulation for future portfolio value projection
-    st.write("Monte Carlo Simulation:")
-    simulations = 1000
-    future_values = []
-    for _ in range(simulations):
-        simulated_returns = np.random.normal(mean_return / 252, volatility / np.sqrt(252), 252 * goal_years)
-        future_values.append(investment_amount * np.prod(1 + simulated_returns))
-    future_values = np.array(future_values)
-    fig = px.histogram(future_values, nbins=50, title="Distribution of Future Portfolio Values")
-    st.plotly_chart(fig)
-    st.write(f"Based on the Monte Carlo simulation, there is a {np.mean(future_values >= financial_goal):.2%} chance of achieving your financial goal.")
+        # Monte Carlo simulation for future portfolio value projection
+        st.write("Monte Carlo Simulation:")
+        simulations = 1000
+        future_values = []
+        for _ in range(simulations):
+            simulated_returns = np.random.normal(mean_return / 252, volatility / np.sqrt(252), 252 * goal_years)
+            future_values.append(investment_amount * np.prod(1 + simulated_returns))
+        future_values = np.array(future_values)
+        fig = px.histogram(future_values, nbins=50, title="Distribution of Future Portfolio Values")
+        st.plotly_chart(fig)
+        st.write(f"Based on the Monte Carlo simulation, there is a {np.mean(future_values >= financial_goal):.2%} chance of achieving your financial goal.")
 else:
     st.write("Please log in to access your personalized robo-advisor dashboard.")
